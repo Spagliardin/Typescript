@@ -1,6 +1,21 @@
 "use strict";
 // tsc -init ------> Inicializar proyector Typescript
 // tsc -w -----> Quedate mirando
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 console.log('Hola Mundo!!!');
 // ############## Boolean   ############# 
 var esSuperman = false;
@@ -228,4 +243,151 @@ var autoBatman = {
     getAuto: function (carro) {
         return carro.toUpperCase();
     }
+};
+//   ############### ES6 #################
+// let capitan_america = {
+//     nombre: 'Hulk',
+//     darOrden_hulk:function(){
+//         console.log(this.nombre + 'smash!!')
+//     }
+// }
+// Recordar siempre que el this.nombre en el contexto de function dentro de un objeto hace referencia al objeto, pero en asincronismo este hace referencia al objeto global. Esto es solucionado por la funcion flecha.
+var capitan_america = {
+    nombre: 'Hulk',
+    darOrden_hulk: function () {
+        var _this = this;
+        setTimeout(function () { return console.log(_this.nombre + 'smash!!'); }, 1000);
+    }
+};
+capitan_america.darOrden_hulk();
+// En la destructuración si nosotros queremos extraer los datos del objeto a una nueva variable, guardamos espacio en memoria con let y luego usamos llaves para crear esas variables <- esto tiene que estar igualado de donde lo extraemos, es decir del objeto avenger en este caso
+// Esto tambien lo puedo hacer con los array, nada mas que se usa corchetes
+var avenger = {
+    nick: 'samuel',
+    ironman: 'Robert',
+    vision: 'Paul'
+};
+var nick = avenger.nick, warmachine = avenger.ironman, vision = avenger.vision;
+// En la destructuracion puedo asignarle nuevo valor a las variables que extraemos del objeto avenger
+// Podria crear una nueva propiedad dentro del objeto igualandola dentro de la destructuracion
+console.log(warmachine);
+// ############# clases #############
+// class Avenger {
+//     constructor(nombre, poder) {  // aca estamos poniendo las propiedades
+//         this.nombre = nombre;
+//         this.poder = poder;
+//     }
+// }
+// class AvengerVolador extends Avenger { // Concepto de Herencia
+//     constructor(nombre, poder){
+//         super(nombre, poder); // para acceder al constructor de Avenger
+//         this.vuela = true  
+//     }
+// }
+// let hulk = new Avenger ('hulk' , 'Grande')
+// let falcon = new AvengerVolador()
+// ############ Clases #################
+var Clase = /** @class */ (function () {
+    function Clase(nombre, equipo, nombreReal) {
+        this.nombre = 'Antman';
+        this.nombre = nombre;
+        this.equipo = equipo;
+        this.nombreReal = nombreReal;
+        console.log('Se ejecuto');
+    }
+    //un Método privado solo se puede ejecutar dentro del mismo contexto, es decir dentro de la misma clase 
+    Clase.prototype.bio = function () {
+        var mensaje = this.nombre + " " + this.nombreReal + " " + this.equipo;
+        console.log(mensaje);
+    };
+    Clase.prototype.cambiarEquipoPublico = function (nuevoEquipo) {
+        return this.cambiarEquipo(nuevoEquipo);
+    };
+    Clase.prototype.cambiarEquipo = function (nuevoEquipo) {
+        if (nuevoEquipo === this.equipo) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
+    return Clase;
+}());
+var antman = new Clase('Antman', 'cap', 'Scott Lang');
+console.log(antman);
+console.log(antman.cambiarEquipoPublico('cap'));
+var Avenger = /** @class */ (function () {
+    // "protected" solo puede ser accedido desde su clase o la de sus hijos
+    function Avenger(nombre, nombreReal) {
+        this.nombre = nombre;
+        this.nombreReal = nombreReal;
+    }
+    Avenger.prototype.getNombre = function () {
+        return this.nombre;
+    };
+    return Avenger;
+}());
+var Xmen = /** @class */ (function (_super) {
+    __extends(Xmen, _super);
+    function Xmen(nombre, nombreReal) {
+        return _super.call(this, nombre, nombreReal) || this;
+    }
+    Xmen.prototype.getNombre = function () {
+        return _super.prototype.getNombre.call(this);
+    };
+    return Xmen;
+}(Avenger));
+var ciclope = new Xmen('ciclope', 'Scott');
+console.log(ciclope.getNombre);
+var GetySet = /** @class */ (function () {
+    function GetySet(_nombre) {
+        this._nombre = _nombre;
+        this._nombre = nombre;
+    }
+    Object.defineProperty(GetySet.prototype, "nombre", {
+        get: function () {
+            return this._nombre;
+        },
+        // Por ejemplo podemos cambiar el nombre de una propiedad.
+        set: function (nombre) {
+            this._nombre = nombre;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    return GetySet;
+}());
+var funciones = new GetySet('traeYEnvia');
+funciones.nombre;
+// Propiedades y Métodos estaticos se pueden llamar sin instanciar la clase
+var Otros = /** @class */ (function () {
+    function Otros() {
+    }
+    Otros.crearXmen = function () {
+        return new Otros();
+    };
+    Otros.nombre = 'wolverine';
+    return Otros;
+}());
+var enviarMision = function (xmen) {
+    console.log('Enviando a' + xmen.nombre);
+};
+var enviarCuartel = function (xmen) {
+    console.log('Enviando al Cuartel' + xmen.nombre);
+};
+var wolvernine = {
+    nombre: 'Wolverine',
+    poder: 'Regeneración'
+};
+enviarMision(wolvernine);
+var Mutante = /** @class */ (function () {
+    function Mutante(nombre, poder) {
+        this.nombre = nombre;
+        this.poder = poder;
+    }
+    return Mutante;
+}());
+var sumarNumeros;
+sumarNumeros = function (a, b) {
+    return a + b;
 };

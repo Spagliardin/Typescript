@@ -383,3 +383,228 @@ type Auto = {
           return carro.toUpperCase();
       }
   }
+
+
+
+//   ############### ES6 #################
+
+
+// let capitan_america = {
+//     nombre: 'Hulk',
+//     darOrden_hulk:function(){
+//         console.log(this.nombre + 'smash!!')
+//     }
+// }
+
+// Recordar siempre que el this.nombre en el contexto de function dentro de un objeto hace referencia al objeto, pero en asincronismo este hace referencia al objeto global. Esto es solucionado por la funcion flecha.
+
+let capitan_america = {
+    nombre: 'Hulk',
+    darOrden_hulk:function() {
+        setTimeout(() => console.log( this.nombre + 'smash!!'),1000)
+    }
+}
+
+capitan_america.darOrden_hulk()
+
+// En la destructuración si nosotros queremos extraer los datos del objeto a una nueva variable, guardamos espacio en memoria con let y luego usamos llaves para crear esas variables <- esto tiene que estar igualado de donde lo extraemos, es decir del objeto avenger en este caso
+
+// Esto tambien lo puedo hacer con los array, nada mas que se usa corchetes
+
+let avenger = {
+    nick: 'samuel',
+    ironman: 'Robert',
+    vision: 'Paul'
+}
+
+let { nick, ironman:warmachine , vision} = avenger
+
+// En la destructuracion puedo asignarle nuevo valor a las variables que extraemos del objeto avenger
+// Podria crear una nueva propiedad dentro del objeto igualandola dentro de la destructuracion
+
+console.log(warmachine)
+
+
+
+// ############# clases #############
+
+// class Avenger {
+
+//     constructor(nombre, poder) {  // aca estamos poniendo las propiedades
+//         this.nombre = nombre;
+//         this.poder = poder;
+//     }
+// }
+
+// class AvengerVolador extends Avenger { // Concepto de Herencia
+//     constructor(nombre, poder){
+//         super(nombre, poder); // para acceder al constructor de Avenger
+//         this.vuela = true  
+//     }
+// }
+
+
+// let hulk = new Avenger ('hulk' , 'Grande')
+// let falcon = new AvengerVolador()
+
+
+// ############ Clases #################
+
+class Clase {
+
+    public nombre:string = 'Antman';
+    protected equipo:string;
+    private nombreReal:string;
+
+
+    constructor ( nombre:string, equipo:string, nombreReal:string){
+        this.nombre = nombre;
+        this.equipo = equipo;
+        this.nombreReal = nombreReal;
+        console.log('Se ejecuto')
+    }
+
+    //un Método privado solo se puede ejecutar dentro del mismo contexto, es decir dentro de la misma clase 
+
+
+    public bio():void{
+        let mensaje:string = `${this.nombre} ${this.nombreReal} ${this.equipo}`
+        console.log(mensaje)
+    }
+
+    public cambiarEquipoPublico(nuevoEquipo:string):boolean{
+        return this.cambiarEquipo(nuevoEquipo)
+    }
+
+
+    private cambiarEquipo(nuevoEquipo:string):boolean{
+        if(nuevoEquipo === this.equipo) {
+            return false
+        }else{
+            return true
+        }
+    }
+
+}
+
+let antman:Clase = new Clase('Antman', 'cap', 'Scott Lang')
+console.log(antman)
+
+console.log(antman.cambiarEquipoPublico('cap'))
+
+
+class Avenger {
+    // "protected" solo puede ser accedido desde su clase o la de sus hijos
+    constructor(public nombre:string, private nombreReal:string) {
+        
+    }
+
+    protected getNombre():string{
+        return this.nombre
+    }
+
+
+}
+
+class Xmen extends Avenger{
+    constructor(nombre:string, nombreReal:string){
+        super(nombre,nombreReal)
+    }
+
+    public getNombre():string{
+        return super.getNombre();
+    }
+
+
+}
+let ciclope:Xmen = new Xmen('ciclope', 'Scott')
+console.log(ciclope.getNombre)
+
+
+
+class GetySet {
+    constructor(public _nombre:string) {
+        this._nombre = nombre
+    }
+
+    get nombre():string{
+        return this._nombre 
+    }
+
+    // Por ejemplo podemos cambiar el nombre de una propiedad.
+    set nombre(nombre:string){
+        this._nombre = nombre;
+    }
+
+}
+
+let funciones:GetySet = new GetySet('traeYEnvia')
+funciones.nombre
+
+// Propiedades y Métodos estaticos se pueden llamar sin instanciar la clase
+
+
+class Otros {
+
+    static nombre:string = 'wolverine'
+    constructor() {
+        
+    }
+
+    static crearXmen(){
+        return new Otros()
+    }
+
+}
+
+
+// clases Abstractas son pueden ser instanciadas, generalmente se usa como padre que hereda propiedades y metodos a otra clases (moldes)
+
+// abstract class name {
+//     constructor(parameters) {
+        
+//     }
+// }
+
+
+
+// ################ Interfaces  ##########
+
+interface XmenDos {
+    nombre:string,
+    poder?:string // Recordar el signo de pregunta para propiedades opcionales
+}
+
+let enviarMision = ( xmen:XmenDos) => {
+    console.log('Enviando a' + xmen.nombre)
+}
+
+let enviarCuartel = ( xmen:XmenDos) => {
+    console.log('Enviando al Cuartel' + xmen.nombre)
+}
+
+let wolvernine:XmenDos = {
+    nombre: 'Wolverine',
+    poder: 'Regeneración'
+}
+
+enviarMision(wolvernine);
+
+class Mutante implements XmenDos {  // Interfaces en las clases
+    constructor(public nombre:string, public poder:string) {
+        
+    }
+}
+
+
+interface DosNumerosFunc{
+    (num1:number, num2:number) : number
+}
+
+let sumarNumeros:DosNumerosFunc;
+
+sumarNumeros = (a:number, b:number) => {
+    return a + b;
+}
+
+
